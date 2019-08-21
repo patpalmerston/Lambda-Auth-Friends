@@ -2,7 +2,7 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import AuthContext from './authContext';
 import authReducer from './authReducer';
-import axiosWithAuth from '../../utils/axiosWithAuth';
+import { axiosWithAuth } from '../../utils/axiosWithAuth';
 import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from '../type.js';
 
 const AuthState = props => {
@@ -18,14 +18,18 @@ const AuthState = props => {
 
 	// Login User
 	const login = async formData => {
-		const config = {
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		};
+		// const config = {
+		// 	headers: {
+		// 		'Content-Type': 'application/json'
+		// 	}
+		// };
 		try {
-			const res = await axios.post('http://localhost:5000/api/login', formData, config);
-			console.log('AuthState login prop', formData);
+			const res = await axiosWithAuth().post(
+				'http://localhost:5000/api/login',
+				formData
+				// config
+			);
+			console.log('AuthState login prop', res);
 			dispatch({
 				type: LOGIN_SUCCESS,
 				payload: res.data

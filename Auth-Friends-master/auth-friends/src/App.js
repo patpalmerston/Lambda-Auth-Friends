@@ -11,9 +11,9 @@ import { axiosWithAuth } from './utils/axiosWithAuth';
 
 import './App.css';
 
-if (localStorage.token) {
-	axiosWithAuth();
-}
+// if (localStorage.token) {
+// 	axiosWithAuth();
+// }
 
 function App() {
 	return (

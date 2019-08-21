@@ -7,20 +7,20 @@ import { axiosWithAuth } from '../../utils/axiosWithAuth';
 
 import {
 	GET_FRIENDS,
-	ADD_FRIEND,
-	DELETE_FRIEND,
-	SET_CURRENT,
-	CLEAR_CURRENT,
-	UPDATE_CURRENT,
-	FILTER_FRIENDS,
-	CLEAR_FRIENDS,
-	FRIEND_ERROR,
-	CLEAR_FILTER
+	// ADD_FRIEND,
+	// DELETE_FRIEND,
+	// SET_CURRENT,
+	// CLEAR_CURRENT,
+	// UPDATE_CURRENT,
+	// FILTER_FRIENDS,
+	// CLEAR_FRIENDS,
+	FRIEND_ERROR
+	// CLEAR_FILTER
 } from '../type.js';
 
 const FriendState = props => {
 	const initialState = {
-		friends: null,
+		friends: [],
 		current: null,
 		filtered: null,
 		error: null
@@ -31,8 +31,10 @@ const FriendState = props => {
 	// Get Friends
 	const getFriends = async () => {
 		try {
-			const res = await axios.get('http://localhost:5000/api/friends');
-			console.log('state', res);
+			const res = await axiosWithAuth().get(
+				'http://localhost:5000/api/friends'
+			);
+
 			dispatch({
 				type: GET_FRIENDS,
 				payload: res.data

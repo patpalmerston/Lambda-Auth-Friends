@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router';
 
+// A Private Route which will allow us to  redirect users who are not logged in to the login in page and also hide any component it is applied to until user is logged in.
 const PrivateRoute = ({ component: Component, ...rest }) => {
 	return (
 		<Route

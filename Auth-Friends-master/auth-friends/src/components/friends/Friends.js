@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import FriendCard from './FriendCard';
+import Spinner from '../layout/Spinner';
+import FriendContext from '../../context/friend/friendContext';
 
 const Friends = () => {
+	const friendContext = useContext(FriendContext);
+	const { friends, getFriends, loading } = friendContext;
+
+	useEffect(() => {
+		getFriends();
+	}, []);
+
 	return (
-		<div>
-      Friend
-			<FriendCard />
-			
-		</div>
+		<Fragment>
+			{/* {friends !== null && !loading ? (
+				friends.map(friend => <FriendCard friend={friend} />)
+			) : (
+				<Spinner />
+			)} */}
+
+			{friends && !loading ? (friends.Map(friend => <FriendCard friend={friend} />)) : (<Spinner />)}
+		</Fragment>
 	);
 };
 

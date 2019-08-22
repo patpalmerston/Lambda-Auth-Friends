@@ -7,14 +7,15 @@ import { axiosWithAuth } from '../../utils/axiosWithAuth';
 
 import {
 	GET_FRIENDS,
-	// ADD_FRIEND,
+	ADD_FRIEND,
 	// DELETE_FRIEND,
 	// SET_CURRENT,
 	// CLEAR_CURRENT,
 	// UPDATE_CURRENT,
 	// FILTER_FRIENDS,
 	// CLEAR_FRIENDS,
-	FRIEND_ERROR
+	FRIEND_ERROR,
+	DELETE_FRIEND
 	// CLEAR_FILTER
 } from '../type.js';
 
@@ -47,6 +48,43 @@ const FriendState = props => {
 		}
 	};
 
+	// Add Friends
+	const addFriends = async friend => {
+		try {
+			const res = await axiosWithAuth().post(
+				'http://localhost:5000/api/friends',
+				friend
+			);
+			getFriends();
+			dispatch({
+				type: ADD_FRIEND,
+				payload: res.data
+			});
+		} catch (err) {
+			dispatch({
+				type: FRIEND_ERROR,
+				payload: err.response.msg
+			});
+		}
+	};
+
+	// Delete Friend
+	const deleteFriend = async id => {
+		try {
+			await axiosWithAuth().delete(`http://localhost:5000/api/friends/${id}`);
+
+			dispatch({
+				type: DELETE_FRIEND,
+				payload: id
+			});
+		} catch (err) {
+			dispatch({
+				type: FRIEND_ERROR,
+				payload: err.response.msg
+			});
+		}
+	};
+
 	return (
 		<FriendContext.Provider
 			value={{
@@ -54,7 +92,9 @@ const FriendState = props => {
 				current: state.current,
 				filtered: state.filtered,
 				error: state.error,
-				getFriends
+				getFriends,
+				addFriends,
+				deleteFriend
 			}}
 		>
 			{props.children}

@@ -20,7 +20,7 @@ const Friends = () => {
 			)} */}
 
 			{friends && !loading ? (
-				friends.map(friend => <FriendCard friend={friend} />)
+				friends.map(friend => <FriendCard friend={friend} key={friend.id} />)
 			) : (
 				<Spinner />
 			)}

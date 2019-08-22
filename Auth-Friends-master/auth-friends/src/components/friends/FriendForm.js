@@ -1,19 +1,64 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+
+import FriendContext from '../../context/friend/friendContext';
 
 const FriendForm = () => {
+	const friendContext = useContext(FriendContext);
 
+	const { addFriends } = friendContext;
+
+	useEffect(() => {
+		setUser({
+			name: '',
+			email: '',
+			age: ''
+		});
+	}, [friendContext]);
 
 	const [user, setUser] = useState({
 		name: '',
 		email: '',
 		age: ''
-	})
+	});
 
-	return(
-		<form onSubmit={null}>
-			<input type="text" name='name' value={null} onChange={null} />
-			<input type="text" name='email' value={null} onChange={null} />
-			<input type="text" name='age' value={null} onChange={null} />
+	const { name, email, age } = user;
+
+	const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
+
+	const onSubmit = e => {
+		e.preventDefault();
+		addFriends(user);
+
+		setUser({
+			name: '',
+			email: '',
+			age: ''
+		});
+	};
+
+	return (
+		<form onSubmit={onSubmit}>
+			<input
+				type='text'
+				name='name'
+				placeholder='name'
+				value={name}
+				onChange={onChange}
+			/>
+			<input
+				type='text'
+				name='email'
+				placeholder='email'
+				value={email}
+				onChange={onChange}
+			/>
+			<input
+				type='text'
+				name='age'
+				placeholder='age'
+				value={age}
+				onChange={onChange}
+			/>
 			<button>Add Friend</button>
 		</form>
 	);

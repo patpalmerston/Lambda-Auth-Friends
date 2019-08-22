@@ -8,14 +8,14 @@ import { axiosWithAuth } from '../../utils/axiosWithAuth';
 import {
 	GET_FRIENDS,
 	ADD_FRIEND,
-	// DELETE_FRIEND,
-	// SET_CURRENT,
-	// CLEAR_CURRENT,
-	// UPDATE_CURRENT,
+	SET_CURRENT,
+	CLEAR_CURRENT,
+	UPDATE_CURRENT,
 	// FILTER_FRIENDS,
-	// CLEAR_FRIENDS,
+	CLEAR_FRIENDS,
 	FRIEND_ERROR,
-	DELETE_FRIEND
+	DELETE_FRIEND,
+	UPDATE_FRIEND
 	// CLEAR_FILTER
 } from '../type.js';
 
@@ -85,6 +85,43 @@ const FriendState = props => {
 		}
 	};
 
+	// Update Friends
+	const updateFriend = async contact => {
+		try {
+			const res = await axiosWithAuth().put(
+				`http://localhost:5000/api/friends/${contact.id}`,
+				contact
+			);
+			getFriends();
+			dispatch({
+				type: UPDATE_FRIEND,
+				payload: res.data
+			});
+		} catch (err) {
+			dispatch({
+				type: FRIEND_ERROR,
+				payload: err.response.msg
+			});
+		}
+	};
+
+	// Clear Friends
+	const clearFriend = () => {
+		dispatch({
+			type: CLEAR_FRIENDS
+		});
+	};
+
+	// Set Current Friend
+	const setCurrent = contact => {
+		dispatch({ type: SET_CURRENT, payload: contact });
+	};
+
+	// Clear Current Friend
+	const clearCurrent = () => {
+		dispatch({ type: CLEAR_CURRENT });
+	};
+
 	return (
 		<FriendContext.Provider
 			value={{
@@ -94,7 +131,11 @@ const FriendState = props => {
 				error: state.error,
 				getFriends,
 				addFriends,
-				deleteFriend
+				deleteFriend,
+				updateFriend,
+				clearFriend,
+				setCurrent,
+				clearCurrent
 			}}
 		>
 			{props.children}

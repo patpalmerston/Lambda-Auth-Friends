@@ -5,15 +5,20 @@ import FriendContext from '../../context/friend/friendContext';
 const FriendForm = () => {
 	const friendContext = useContext(FriendContext);
 
-	const { addFriends } = friendContext;
+	const { addFriends, clearCurrent, updateFriend, current } = friendContext;
 
 	useEffect(() => {
-		setUser({
-			name: '',
-			email: '',
-			age: ''
-		});
-	}, [friendContext]);
+		if(current !== null) {
+			setUser(current)
+		} else {
+
+			setUser({
+				name: '',
+				email: '',
+				age: ''
+			});
+		}
+	}, [friendContext, current]);
 
 	const [user, setUser] = useState({
 		name: '',
@@ -27,7 +32,12 @@ const FriendForm = () => {
 
 	const onSubmit = e => {
 		e.preventDefault();
-		addFriends(user);
+		if(current === null) {
+
+			addFriends(user);
+		} else {
+			updateFriend(user)
+		}
 
 		setUser({
 			name: '',
@@ -36,8 +46,13 @@ const FriendForm = () => {
 		});
 	};
 
+	const clearAll = () => {
+		clearCurrent();
+	}
+
 	return (
 		<form onSubmit={onSubmit}>
+			<h2>{current ? 'Edit Contact' : 'Add Contact'}</h2>
 			<input
 				type='text'
 				name='name'
@@ -59,7 +74,8 @@ const FriendForm = () => {
 				value={age}
 				onChange={onChange}
 			/>
-			<button>Add Friend</button>
+			<button>{current ? 'Edit Contact' : 'Add Friend'}</button>
+			{current && <button onClick={clearAll}>Clear</button>}
 		</form>
 	);
 };

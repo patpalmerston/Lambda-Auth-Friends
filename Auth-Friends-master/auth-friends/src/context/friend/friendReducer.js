@@ -2,11 +2,11 @@ import {
 	GET_FRIENDS,
 	ADD_FRIEND,
 	DELETE_FRIEND,
-	// SET_CURRENT,
-	// CLEAR_CURRENT,
-	// UPDATE_CURRENT,
+	SET_CURRENT,
+	CLEAR_CURRENT,
+	UPDATE_CURRENT,
 	// FILTER_FRIENDS,
-	// CLEAR_FRIENDS,
+	CLEAR_FRIENDS,
 	FRIEND_ERROR
 	// CLEAR_FILTER
 } from '../type.js';
@@ -31,6 +31,24 @@ export default (state, action) => {
 				...state,
 				friends: state.friends.filter(friend => friend.id !== action.payload),
 				loading: false
+			};
+		case CLEAR_FRIENDS:
+			return {
+				...state,
+				friends: null,
+				filtered: null,
+				error: null,
+				current: null
+			};
+		case SET_CURRENT:
+			return {
+				...state,
+				current: action.payload
+			};
+		case CLEAR_CURRENT:
+			return {
+				...state,
+				current: null
 			};
 		case FRIEND_ERROR:
 			return {

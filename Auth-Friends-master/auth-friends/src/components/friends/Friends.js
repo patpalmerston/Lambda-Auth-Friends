@@ -19,7 +19,11 @@ const Friends = () => {
 				<Spinner />
 			)} */}
 
-			{friends && !loading ? (friends.Map(friend => <FriendCard friend={friend} />)) : (<Spinner />)}
+			{friends && !loading ? (
+				friends.map(friend => <FriendCard friend={friend} key={friend.id} />)
+			) : (
+				<Spinner />
+			)}
 		</Fragment>
 	);
 };
